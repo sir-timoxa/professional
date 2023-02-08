@@ -1,6 +1,6 @@
 s = [int(input()) for x in range(3)]
 s.sort()
-print(s)
+
 a = sum(s)
 k = (s[0]+s[1])*2
 
