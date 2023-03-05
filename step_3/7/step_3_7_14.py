@@ -19,3 +19,4 @@ my_result=get_all_thursday(int(input()))
 for x in my_result:
     print(x.strftime('%d.%m.%Y'))
 
+
