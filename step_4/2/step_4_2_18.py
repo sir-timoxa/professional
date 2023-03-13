@@ -7,7 +7,7 @@ with open('titanic.csv', encoding='utf-8') as file:
         if row["survived"] == '1' and float(row['age']) < 18:
             result[row['name']] = result.setdefault(row['name'], row['sex'])
 
-    sorted_result = dict( sorted(result.items(), key=lambda item: (item[1]),reverse=True))
+    sorted_result = dict(sorted(result.items(), key=lambda item: (item[1]),reverse=True))
 
 
 print(*sorted_result,sep='\n')
