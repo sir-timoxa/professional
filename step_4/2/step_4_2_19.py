@@ -21,10 +21,6 @@ with open('name_log.csv', encoding='utf-8') as file:
 
 sorted_result = dict(
     sorted(result.items(), key=lambda item: (item[1][1])))
-# print(result.items())
-
-# for x in sorted_result.values():
-#     print(x)
 
 with open('new_name_log.csv', 'w', encoding='utf-8') as csv_file:
     writer = csv.DictWriter(csv_file, fieldnames=[
@@ -34,4 +30,4 @@ with open('new_name_log.csv', 'w', encoding='utf-8') as csv_file:
         writer.writerow(
             {'username': sorted_result[row][0], 'email': sorted_result[row][1], 'dtime': sorted_result[row][2]})
 
- # datetime.strptime(row['dtime'], pattern)
+
