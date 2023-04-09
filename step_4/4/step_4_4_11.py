@@ -2,11 +2,18 @@
 import csv
 import json
 
-with open('playgrounds.csv', 'r', encoding='UTF-8') as input, open('addresses.json', 'w', encoding='UTF-8') as output:
-    rows = csv.DictReader(input, delimiter=';')
-    new_data = {}
-    for row in rows:
-        new_data.setdefault(row['AdmArea'], {}).setdefault(
-            row['District'], []).append(row['Address'])
+with open('students.json', 'r', encoding='UTF-8') as input, open('data.csv', 'w', encoding='UTF-8') as output:
+    data = json.load(input)
+    my_list=[]
+    for x in data:
+        if x['age']>17 and x['progress']>74:
+            my_list.append({'name':x['name'],'phone':x['phone']})
+    
+    
+    header=['name','phone']
+    writer = csv.DictWriter(output,delimiter=',',fieldnames=header)
+    writer.writeheader()
+    writer.writerows(sorted(my_list,key=lambda x:x['name']))
 
-    json.dump(new_data,output, indent=3, ensure_ascii=False)
+
+   
