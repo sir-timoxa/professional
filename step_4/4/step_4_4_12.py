@@ -1,14 +1,18 @@
+import csv
 import json
 
-with open('pools.json', 'r', encoding='UTF-8') as input:
+with open('students.json', 'r', encoding='UTF-8') as input, open('data.csv', 'w', encoding='UTF-8') as output:
     data = json.load(input)
-    my_data={}
+    my_list=[]
     for x in data:
-        new_time = x['WorkingHoursSummer']["Понедельник"].split('-')
-        start = new_time[0].split(':')[0]
-        end = new_time[1].split(':')[0]
-        if int(start) <= 10 and int(end) >= 12:
-            my_data.setdefault(x['Address'],(int(x['DimensionsSummer']['Length']),int(x['DimensionsSummer']['Width'])))
-    result=sorted(my_data.items(),key=lambda x: (x[1][0],x[1][1]),reverse=True)
-    print('x'.join(map(str,result[0][1])))
-    print(result[0][0])
+        if x['age']>17 and x['progress']>74:
+            my_list.append({'name':x['name'],'phone':x['phone']})
+    
+    
+    header=['name','phone']
+    writer = csv.DictWriter(output,delimiter=',',fieldnames=header)
+    writer.writeheader()
+    writer.writerows(sorted(my_list,key=lambda x:x['name']))
+
+
+   

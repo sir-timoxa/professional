@@ -1,23 +1,14 @@
-import csv
 import json
-from datetime import datetime
-pattern = '%Y-%m-%d %H:%M:%S'
 
-with open('exam_results.csv', 'r', encoding='UTF-8') as input, open('best_scores.json', 'w', encoding='UTF-8') as output:
-    rows =list(csv.DictReader(input, delimiter=','))
-    rows=sorted(rows,key=lambda x: datetime.strptime(x['date_and_time'], pattern))
-    my_data = {}
-    for x in rows:
-        if x['email'] not in my_data:
-            new_value = {key: value for key, value in zip(
-                ('name', 'surname', 'best_score', 'date_and_time', 'email'), x.values())}
-            new_value['best_score'] = int(new_value['best_score'])
-            my_data.setdefault(x['email'], new_value)
-        else:
-            if int(x['score']) >= int(my_data[x['email']]['best_score']):
-                my_data[x['email']].update({'best_score': int(x['score'])})
-                my_data[x['email']].update(
-                    {'date_and_time': x['date_and_time']})
-    my_data = dict(sorted(my_data.items()))
-    my_data = list(my_data.values())
-    json.dump(my_data, output, indent=3)
+with open('pools.json', 'r', encoding='UTF-8') as input:
+    data = json.load(input)
+    my_data={}
+    for x in data:
+        new_time = x['WorkingHoursSummer']["Понедельник"].split('-')
+        start = new_time[0].split(':')[0]
+        end = new_time[1].split(':')[0]
+        if int(start) <= 10 and int(end) >= 12:
+            my_data.setdefault(x['Address'],(int(x['DimensionsSummer']['Length']),int(x['DimensionsSummer']['Width'])))
+    result=sorted(my_data.items(),key=lambda x: (x[1][0],x[1][1]),reverse=True)
+    print('x'.join(map(str,result[0][1])))
+    print(result[0][0])
