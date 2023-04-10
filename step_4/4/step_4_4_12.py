@@ -1,6 +1,4 @@
 import json
-import csv
-
 
 with open('pools.json', 'r', encoding='UTF-8') as input:
     data = json.load(input)
