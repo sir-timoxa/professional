@@ -1,54 +1,67 @@
+
 import functools
-
-
-def repeat(times):
-    def decorator(func):
-        @functools.wraps(func)
-        def wrapper(*args, **kwargs):
-            for _ in range(times):
-                value = func(*args, **kwargs)
-            return value
-
-        return wrapper
-
-    return decorator
+def make_html(symbol):
+            def decorator(func):
+                @functools.wraps(func)
+                def wrapper(*args, **kwargs):
+                    value = func(*args, **kwargs)
+                    return f"<{symbol}>{value}</{symbol}>"
+                return wrapper
+            return decorator
 
 
 # INPUT DATA:
 
 # TEST_1:
-@repeat(3)
-def say_beegeek():
-    '''documentation'''
-    print('beegeek')
+@make_html('del')
+def get_text(text):
+    return text
 
 
-say_beegeek()
-print()
+print(get_text('Python'))
 
 
 # TEST_2:
-@repeat(4)
-def say_beegeek():
-    '''documentation'''
-    print('beegeek')
+@make_html('i')
+@make_html('del')
+def get_text(text):
+    return text
 
 
-print(say_beegeek.__name__)
-print(say_beegeek.__doc__)
-
-print()
+print(get_text(text='decorators are so cool!'))
 
 
 # TEST_3:
-@repeat(1)
+@make_html('small')
+@make_html('mark')
+@make_html('i')
+@make_html('del')
+def get_text(text):
+    return text
+
+
+print(get_text('ANRIANRIANRI'))
+
+
+# TEST_4:
+@make_html('mark')
+@make_html('mark')
+def get_text(text):
+    return text * 2
+
+
+print(get_text(text='doubleit'))
+
+
+# TEST_5:
+@make_html('mark')
+@make_html('mark')
+@make_html('mark')
 def beegeek():
     '''beegeek docs'''
-    print('beegeek')
+    return 'beegeek'
 
 
+print(beegeek())
 print(beegeek.__name__)
 print(beegeek.__doc__)
-beegeek()
-
-print()

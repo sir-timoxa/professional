@@ -1,43 +1,39 @@
 import functools
-def make_html(tag):
+def prefix(symbol,to_the_end=False):
             def decorator(func):
                 @functools.wraps(func)
                 def wrapper(*args, **kwargs):
                     value = func(*args, **kwargs)
-                    return f"<{tag}>{value}</{tag}>"
+                    return value+symbol if to_the_end else symbol+value
                 return wrapper
             return decorator
 
-
-# INPUT DATA:
-
 # TEST_1:
-@make_html('del')
-def get_text(text):
-    return text
+@prefix('€')
+def get_bonus():
+    return '2000'
 
 
-print(get_text('Python'))
+print(get_bonus())
 
 
 # TEST_2:
-@make_html('i')
-@make_html('del')
-def get_text(text):
-    return text
+@prefix('$$$', to_the_end=True)
+def get_bonus():
+    return '2000'
 
 
-print(get_text(text='decorators are so cool!'))
+print(get_bonus())
 
 
 # TEST_3:
-@make_html('small')
-@make_html('mark')
-@make_html('i')
-@make_html('del')
-def get_text(text):
-    return text
+@prefix(' online-school', to_the_end=True)
+def beegeek():
+    '''beegeek docs'''
+    return 'beegeek'
 
 
-print(get_text('ANRIANRIANRI'))
+print(beegeek.__name__)
+print(beegeek.__doc__)
+print(beegeek())
 

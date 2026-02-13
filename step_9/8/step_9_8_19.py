@@ -1,96 +1,100 @@
 import functools
 
 
-def strip_range(start,end,char='.'):
+def repeat(times):
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            value = func(*args, **kwargs)
-            return value[:start] + char * (min(end, len(value)) - start) + value[end:]
+            for _ in range(times):
+                value = func(*args, **kwargs)
+            return value
+
         return wrapper
 
     return decorator
 
 
+# INPUT DATA:
+
 # TEST_1:
-@strip_range(3, 5)
-def beegeek():
-    return 'beegeek'
+@repeat(3)
+def say_beegeek():
+    '''documentation'''
+    print('beegeek')
 
 
-print(beegeek())
+say_beegeek()
 
 
 # TEST_2:
-@strip_range(3, 20, '_')
-def beegeek():
-    return 'beegeek'
+@repeat(4)
+def say_beegeek():
+    '''documentation'''
+    print('beegeek')
 
 
-print(beegeek())
+print(say_beegeek.__name__)
+print(say_beegeek.__doc__)
 
 
 # TEST_3:
-@strip_range(20, 30)
+@repeat(1)
 def beegeek():
-    return 'beegeek'
+    '''beegeek docs'''
+    print('beegeek')
 
 
-print(beegeek())
+print(beegeek.__name__)
+print(beegeek.__doc__)
+beegeek()
 
 
 # TEST_4:
-@strip_range(1, 2, '-')
+@repeat(10)
 def beegeek():
-    return 'beegeek'
+    '''beegeek docs'''
+    print('beegeek')
 
 
-print(beegeek())
+print(beegeek.__name__)
+print(beegeek.__doc__)
+beegeek()
 
 
 # TEST_5:
-@strip_range(100, 200, '=')
-def beegeek():
-    return 'beegeek'
+@repeat(10)
+def add(a, b):
+    '''sum of two numbers'''
+    return a + b
 
 
-print(beegeek())
-
+print(add.__name__)
+print(add.__doc__)
+print(add(10, b=20))
 
 # TEST_6:
-@strip_range(0, 300, '=')
-def beegeek():
-    return 'beegeek'
+counter = 0
 
 
-print(beegeek())
+@repeat(11)
+def change_counter():
+    global counter
+    counter += 1
+    print(counter)
+
+
+print(change_counter.__name__)
+print(change_counter.__doc__)
+change_counter()
+print(counter)
 
 
 # TEST_7:
-@strip_range(0, 4, '=')
-def beegeek():
-    return 'beegeek'
+@repeat(5)
+def say(word):
+    print(word)
 
 
-print(beegeek())
+say(word="Hey!")
 
 
-# TEST_8:
-@strip_range(0, 1)
-def beegeek(word, end=" "):
-    """This is... Requiem. What you are seeing is indeed the truth"""
-    return word + end
-
-
-print(beegeek("beegee", end="k"))
-print(beegeek.__name__)
-print(beegeek.__doc__)
-
-
-# TEST_9:
-@strip_range(12, 15)
-def beegeek():
-    return 'beegeek_new_beegeek'
-
-
-print(beegeek())
